@@ -1,0 +1,86 @@
+Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
+
+ 
+
+Example 1:
+
+Input: nums1 = [1,2,2,1], nums2 = [2,2]
+Output: [2,2]
+Example 2:
+
+Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+Output: [4,9]
+Explanation: [9,4] is also accepted.
+
+//My Solution
+//make two maps and save frequency of elements then loop over one map and check if another map have that value get the min occurence value and add that value to arraylist number of times it have the min occurence and finally copy the arraylist to arry and return the array.
+class Solution {
+    public int[] intersect(int[] nums1, int[] nums2) {
+        
+        Map<Integer,Integer> hm1=new TreeMap<>();
+        Map<Integer,Integer> hm2=new TreeMap<>();
+        ArrayList<Integer> al=new ArrayList<>();
+        for(int i:nums1)
+        {
+            if(!hm1.containsKey(i))
+                hm1.put(i,1);
+            else
+                hm1.put(i,hm1.get(i)+1);
+        }
+        for(int j:nums2)
+        {
+            if(!hm2.containsKey(j))
+                hm2.put(j,1);
+            else
+                hm2.put(j,hm2.get(j)+1);
+        }
+        
+        for(int i:hm1.keySet())
+        {
+            if(hm2.containsKey(i))
+            {
+                int val=Math.min(hm1.get(i),hm2.get(i));
+                for(int j=0;j<val;j++)
+                {
+                    al.add(i);
+                }
+            }
+        }
+        int arr[]=new int[al.size()];
+        for(int i=0;i<al.size();i++)
+        {
+            arr[i]=al.get(i);
+        }
+        return arr;
+    }
+}
+
+//Good Solution
+//first sort both array then loop over to both the array until one of them ends if both the value at a time equals then add them to answer array if arr1 val is greater than arr2 then move loop in arr2 or vice versa. the return the answer array.
+
+class Solution {
+    public int[] intersect(int[] nums1, int[] nums2) {
+        // Challenge : We cannot use set here, as it is asking us to print duplicates:
+        // So we need to go towards the sorting method : 
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        int i = 0;
+        int j = 0;
+        int index = 0;
+        int[] result;
+        if (nums1.length > nums2.length) result = new int[nums2.length];
+        else result = new int[nums1.length];
+        
+        while(i < nums1.length && j < nums2.length){
+            if (nums1[i] == nums2[j]){
+                result[index++] = nums1[i];
+                i++;
+                j++;
+            }
+            else if (nums1[i] > nums2[j]) j++;
+            else i++;
+        }
+        
+        return Arrays.copyOf(result, index);//print result array from 0 to index its a range [0,index].
+    }
+}
