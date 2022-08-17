@@ -1,0 +1,59 @@
+Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+Note that you must do this in-place without making a copy of the array.
+
+ 
+
+Example 1:
+
+Input: nums = [0,1,0,3,12]
+Output: [1,3,12,0,0]
+Example 2:
+
+Input: nums = [0]
+Output: [0]
+
+//My Solution
+//two pointer one for keeping track of the place of first occurence of 0 and another one looping through the array and comparing the values if not equal to zero then swap with the first occurence of zero and move the first occurence by 1.
+
+class Solution {
+    public void moveZeroes(int[] nums) {
+            
+       int point=0;
+       int j=1;
+        
+        while(j<nums.length && nums.length>1)
+        {
+            if(nums[point]==0 && nums[j]!=0)
+            {
+                int temp=nums[point];
+                nums[point]=nums[j];
+                nums[j]=temp;
+                point++;
+            }
+            else if(nums[point]==0 && nums[j]==0)
+            {
+                j++;
+            }
+            else
+            {
+                point++;
+                j++;
+            }
+        }
+        
+    }
+}
+
+//Good solution
+//same idea to track count of first occurence of 0 and just loop through array and replace the value with first occurence if the current value of i is not equal to 0 and then move the first occurence by 1.
+
+int count =0;
+for(int i=0;i<nums.length;i++){
+if(nums[i]!=0){
+int temp=nums[count];
+nums[count]=nums[i];
+nums[i]=temp;
+count++;
+        }
+    }
